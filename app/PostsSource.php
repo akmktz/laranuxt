@@ -41,6 +41,7 @@ class PostsSource extends Model
      * @var array
      */
     protected $dates = [
+        'synchronized_at',
         'created_at',
         'updated_at',
     ];

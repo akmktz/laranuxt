@@ -22,6 +22,7 @@ class CreateTablePostSources extends Migration
             $table->string('external_name')->comment('User name on source resource');
             $table->boolean('filter_type')->default(true)->comment('true - whitelist, false - blacklist');
             $table->string('filter_words')->nullable();
+            $table->dateTime('synchronized_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

@@ -43,7 +43,7 @@ class ParsePosts extends Command
     {
         $minDate = Carbon::now()->subHours(24);
 
-        $sources = PostsSource::where('enabled', true)->get()->toArray();
+        $sources = PostsSource::where('enabled', true)->get();
         foreach ($sources as $source) {
             dispatch(new ParseTwitter($minDate, $source));
         }

@@ -37,6 +37,9 @@ class ParseTwitter implements ShouldQueue
      */
     public function handle()
     {
+        $this->source->synchronized_at = Carbon::now();
+        $this->source->save();
+
         $data = Twitter::getUserTimeline([
             'screen_name' => array_get($this->source, 'external_name'),
             'format' => 'array',
