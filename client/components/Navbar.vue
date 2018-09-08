@@ -15,9 +15,9 @@
       <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav">
           <locale-dropdown/>
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li> -->
+          <li v-if="user" class="nav-item">
+            <router-link :to="{ name: 'posts.index' }" class="nav-link">{{ $t('Posts') }}</router-link>
+          </li>
         </ul>
 
         <ul class="navbar-nav ml-auto">

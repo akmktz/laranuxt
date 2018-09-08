@@ -65,6 +65,6 @@ class Post extends Model
      */
     public function source()
     {
-        return $this->hasOne(PostsSource::class);
+        return $this->belongsTo(PostsSource::class);
     }
 }
