@@ -1,13 +1,24 @@
 <template>
   <div>
-    <card v-for="item in list" :key="item.id" :title="item.created_at + ' ' + item.title" class="margin-bottom">
-      <span v-html="item.body"></span>
-    </card>
+    <div v-for="(item, index) in list" :key="item.id" class="card margin-bottom">
+      <div @click="openItem(item, index)" class="card-header">
+        <span v-bind:class="{ 'font-weight-bold': !item.viewed }">
+         <span>{{ item.title }}</span> <span class="float-right">  {{item.created_at}}</span>
+        </span>
+      </div>
+      <transition name="slide-fade">
+        <div v-show="openedItemId === item.id" class="card-body">
+          <span v-html="item.body"></span>
+          <button @click="deleteItem(item.id)" class="btn btn-sm btn-danger float-right">{{ $t('delete') }}</button>
+        </div>
+      </transition>
+    </div>
+
   </div>
 
 </template>
 
-<script>
+<script >
 
 import axios from 'axios'
 
@@ -20,22 +31,51 @@ export default {
 
   data () {
     return {
-      list: []
+      list: [],
+      openedItemId: null
     }
   },
 
   asyncData () {
     return axios.get('/posts')
-      .then((result) => {
+      .then((response) => {
         let list = [];
-        if (result.data.success) {
-          list = result.data.list;
+        if (response.data.success) {
+          list = response.data.list;
         }
 
         return { list: list }
       })
-  }
+  },
 
+  methods: {
+    openItem (item, index) {
+      this.openedItemId = item.id;
+
+      if (item.viewed) {
+        return;
+      }
+
+      axios.post('/posts/' + item.id + '/viewed')
+        .then(response => {
+          item.viewed = response.data.item.viewed;
+          this.list[index] = response.data.item;
+        })
+        .catch(error => {
+          this.$toast.error(error.statusText)
+        })
+    },
+
+    deleteItem (id) {
+      axios.post('/posts/' + id + '/delete')
+        .then(response => {
+          this.list = response.data.list;
+        })
+        .catch(error => {
+          this.$toast.error(error.statusText)
+        })
+    }
+  }
 }
 </script>
 

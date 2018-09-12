@@ -9,18 +9,18 @@ use Illuminate\Database\Eloquent\Model;
  * Class Post
  * @package App
  *
- * @var int $id
- * @var string $type
- * @var int $user_id
- * @var int $source_id
- * @var string $original_id
- * @var \Carbon\Carbon $original_date
- * @var string $title
- * @var string $body
- * @var string $url
- * @var bool $viewed
- * @var \Carbon\Carbon $created_at
- * @var \Carbon\Carbon $updated_at
+ * @property  int $id
+ * @property  string $type
+ * @property  int $user_id
+ * @property  int $source_id
+ * @property  string $original_id
+ * @property  \Carbon\Carbon $original_date
+ * @property  string $title
+ * @property  string $body
+ * @property  string $url
+ * @property  bool viewed
+ * @property  \Carbon\Carbon $created_at
+ * @property  \Carbon\Carbon $updated_at
  */
 class Post extends Model
 {

@@ -14,7 +14,11 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('posts', 'Posts\PostsController@index');
+    Route::prefix('posts')->group(function () {
+        Route::get('', 'Posts\PostsController@index');
+        Route::post('{post}/viewed', 'Posts\PostsController@viewed');
+        Route::post('{post}/delete', 'Posts\PostsController@delete');
+    });
 
     Route::post('logout', 'Auth\LoginController@logout');
 
