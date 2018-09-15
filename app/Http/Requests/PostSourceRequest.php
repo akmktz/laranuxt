@@ -30,7 +30,7 @@ class PostSourceRequest extends FormRequest
     public function rules(Request $request)
     {
         $tableName = with(new PostsSource)->getTable();
-        $id = $request->route('source')->id ?? null;
+        $id = $request->route('item')->id ?? null;
 
         return [
             'type' => 'required|string|in:' . PostsSource::SOURCE_TYPE_TWITTER,
