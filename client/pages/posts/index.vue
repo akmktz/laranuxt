@@ -7,7 +7,7 @@
         </span>
       </div>
       <transition name="slide-fade">
-        <div v-show="openedItemId === item.id" class="card-body">
+        <div v-if="openedItemId === item.id" class="card-body">
           <span v-html="item.body"></span>
           <button @click="deleteItem(item.id)" class="btn btn-sm btn-danger float-right">{{ $t('delete') }}</button>
         </div>
@@ -18,11 +18,11 @@
 
 </template>
 
-<script >
+<script>
 
-import axios from 'axios'
+  import axios from 'axios'
 
-export default {
+  export default {
   middleware: 'auth',
 
   head () {
@@ -52,14 +52,23 @@ export default {
     openItem (item, index) {
       this.openedItemId = item.id;
 
+      // Run twiier script for build widget
+      let twitterScript = document.getElementById('widget-twitter-script');
+      if (twitterScript) {
+        twitterScript.remove();
+      }
+      twitterScript = document.createElement('script');
+      twitterScript.id = 'widget-twitter-script';
+      twitterScript.src = 'https://platform.twitter.com/widgets.js';
+      document.head.appendChild(twitterScript);
+
       if (item.viewed) {
         return;
       }
 
       axios.post('/posts/' + item.id + '/viewed')
         .then(response => {
-          item.viewed = response.data.item.viewed;
-          this.list[index] = response.data.item;
+          this.$set(this.list, index, response.data.item);
         })
         .catch(error => {
           this.$toast.error(error.statusText)
