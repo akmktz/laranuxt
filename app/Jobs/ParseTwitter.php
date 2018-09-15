@@ -41,7 +41,7 @@ class ParseTwitter implements ShouldQueue
         $this->source->save();
 
         $data = Twitter::getUserTimeline([
-            'screen_name' => array_get($this->source, 'external_name'),
+            'screen_name' => array_get($this->source, 'account_name'),
             'format' => 'array',
             'count' => 10,
             'trim_user' => true,

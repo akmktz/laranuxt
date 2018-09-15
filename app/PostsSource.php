@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
  * Class PostsSource
  * @package App
  *
- * @var int $id
- * @var string $type
- * @var int $user_id
- * @var string $name
- * @var string $external_name
- * @var bool $enabled
- * @var \Carbon\Carbon $created_at
- * @var \Carbon\Carbon $updated_at
+ * @property int $id
+ * @property string $type
+ * @property int $user_id
+ * @property string $name
+ * @property string $account_name
+ * @property bool $enabled
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  */
 class PostsSource extends Model
 {
@@ -31,7 +31,7 @@ class PostsSource extends Model
         'type' => 'string',
         'user_id' => 'integer',
         'name' => 'string',
-        'external_name' => 'string',
+        'account_name' => 'string',
         'enabled' => 'boolean',
     ];
 
@@ -47,11 +47,23 @@ class PostsSource extends Model
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['type', 'name', 'account_name'];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function user()
     {
         return $this->hasOne(User::class);
     }
+
+    //public static function getTableName()
+    //{
+    //    return with(new static)->getTable();
+    //}
 
 }

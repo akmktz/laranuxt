@@ -14,13 +14,16 @@
 
       <div class="collapse navbar-collapse" id="navbarToggler">
         <ul class="navbar-nav">
-          <locale-dropdown/>
           <li v-if="user" class="nav-item">
             <router-link :to="{ name: 'posts.index' }" class="nav-link">{{ $t('Posts') }}</router-link>
           </li>
+            <li v-if="user" class="nav-item">
+            <router-link :to="{ name: 'posts.sources' }" class="nav-link">{{ $t('Sources') }}</router-link>
+          </li>
         </ul>
-
+        <ul></ul>
         <ul class="navbar-nav ml-auto">
+          <locale-dropdown/>
           <!-- Authenticated -->
           <li v-if="user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark"
@@ -61,10 +64,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import LocaleDropdown from './LocaleDropdown'
+  import {mapGetters} from 'vuex'
+  import LocaleDropdown from './LocaleDropdown'
 
-export default {
+  export default {
   data: () => ({
     appName: process.env.appName
   }),

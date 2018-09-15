@@ -16,6 +16,7 @@ const SettingsProfile = () => import('~/pages/settings/profile').then(m => m.def
 const SettingsPassword = () => import('~/pages/settings/password').then(m => m.default || m)
 
 const Posts = () => import('~/pages/posts/index').then(m => m.default || m)
+const PostsSources = () => import('~/pages/posts/sources').then(m => m.default || m)
 
 const routes = [
   { path: '/', name: 'welcome', component: Welcome },
@@ -32,7 +33,8 @@ const routes = [
     { path: 'password', name: 'settings.password', component: SettingsPassword }
   ] },
 
-  { path: '/posts', name: 'posts.index', component: Posts }
+  { path: '/posts', name: 'posts.index', component: Posts },
+  { path: '/posts/sources', name: 'posts.sources', component: PostsSources }
 ]
 
 const scrollBehavior = (to, from, savedPosition) => {

@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTablePostSources extends Migration
 {
@@ -19,7 +19,7 @@ class CreateTablePostSources extends Migration
             $table->enum('type', ['TWITTER']);
             $table->addColumn('integer', 'user_id', ['unsigned' => true, 'length' => 11])->index();
             $table->string('name');
-            $table->string('external_name')->comment('User name on source resource');
+            $table->string('account_name')->comment('User name on source resource');
             $table->boolean('filter_type')->default(true)->comment('true - whitelist, false - blacklist');
             $table->string('filter_words')->nullable();
             $table->dateTime('synchronized_at')->nullable();

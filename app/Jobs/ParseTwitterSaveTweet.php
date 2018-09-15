@@ -9,7 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Auth;
 
 class ParseTwitterSaveTweet implements ShouldQueue
 {
@@ -45,7 +44,7 @@ class ParseTwitterSaveTweet implements ShouldQueue
      */
     public function handle()
     {
-        $user = str_replace('@', '', array_get($this->source, 'external_name'));
+        $user = str_replace('@', '', array_get($this->source, 'account_name'));
         $url = 'https://twitter.com/' . $user . '/status/' . $this->id;
         $data = json_decode(file_get_contents('https://publish.twitter.com/oembed?url='. urlencode($url)));
 

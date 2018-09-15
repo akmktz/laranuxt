@@ -71,7 +71,7 @@
           this.$set(this.list, index, response.data.item);
         })
         .catch(error => {
-          this.$toast.error(error.statusText)
+          this.$toast.error(error.response.statusText)
         })
     },
 
@@ -81,7 +81,7 @@
           this.list = response.data.list;
         })
         .catch(error => {
-          this.$toast.error(error.statusText)
+          this.$toast.error(error.response.statusText)
         })
     }
   }

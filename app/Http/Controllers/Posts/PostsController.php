@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['owner']);
+    }
+
     public function index()
     {
         $list = $this->getList();
@@ -19,21 +24,21 @@ class PostsController extends Controller
 
     }
 
-    public function viewed(Post $post)
+    public function viewed(Post $item)
     {
-        $post->viewed = true;
-        $post->save();
+        $item->viewed = true;
+        $item->save();
 
         return response()->json([
             'success' => true,
-            'item' => $post,
+            'item' => $item,
         ]);
 
     }
 
-    public function delete(Post $post)
+    public function delete(Post $item)
     {
-        $post->delete();
+        $item->delete();
 
         $list = $this->getList();
 

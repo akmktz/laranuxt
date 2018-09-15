@@ -47,7 +47,8 @@ module.exports = {
   },
 
   css: [
-    { src: '~assets/sass/app.scss', lang: 'scss' }
+    { src: '~assets/sass/app.scss', lang: 'scss' },
+    'vue-material/dist/vue-material.min.css'
   ],
 
   plugins: [
@@ -62,8 +63,17 @@ module.exports = {
 
   modules: [
     '@nuxtjs/router',
-    '~/modules/spa'
+    '@nuxtjs/toast',
+    '~/modules/spa',
+    ['nuxt-vue-material', {
+      theme: 'default'
+    }],
+    'nuxt-material-design-icons'
   ],
+
+  toast: {
+    duration: 5000
+  },
 
   build: {
     extractCSS: true
