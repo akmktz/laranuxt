@@ -20,11 +20,12 @@ class CreateTablePostSources extends Migration
             $table->addColumn('integer', 'user_id', ['unsigned' => true, 'length' => 11])->index();
             $table->string('name');
             $table->string('account_name')->comment('User name on source resource');
+            $table->string('original_max_id')->nullable();
             $table->boolean('filter_type')->default(true)->comment('true - whitelist, false - blacklist');
             $table->string('filter_words')->nullable();
             $table->dateTime('synchronized_at')->nullable();
             $table->timestamps();
-            $table->softDeletes();
+
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
         });
 

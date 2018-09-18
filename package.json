@@ -4,7 +4,8 @@
     "dev": "nuxt -c client/nuxt.config.js",
     "build": "nuxt build -c client/nuxt.config.js",
     "start": "nuxt start -c client/nuxt.config.js",
-    "lint": "eslint --ext .js,.vue client/"
+    "lint": "eslint --ext .js,.vue client/",
+    "static": "nuxt generate -c client/nuxt.config.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.1",

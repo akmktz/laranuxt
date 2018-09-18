@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $account_name
  * @property bool $enabled
+ * @property int $original_max_id
+ * @property \Carbon\Carbon $original_max_date
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  */
@@ -32,6 +34,7 @@ class PostsSource extends Model
         'user_id' => 'integer',
         'name' => 'string',
         'account_name' => 'string',
+        'original_max_id' => 'integer',
         'enabled' => 'boolean',
     ];
 
@@ -42,6 +45,7 @@ class PostsSource extends Model
      */
     protected $dates = [
         'synchronized_at',
+        'original_max_date',
         'created_at',
         'updated_at',
     ];

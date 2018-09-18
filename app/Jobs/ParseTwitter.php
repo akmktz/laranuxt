@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Post;
+use App\PostsSource;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,6 +17,10 @@ class ParseTwitter implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     private $minDate;
+
+    /**
+     * @var PostsSource
+     */
     private $source;
 
     /**
@@ -38,8 +43,23 @@ class ParseTwitter implements ShouldQueue
     public function handle()
     {
         $this->source->synchronized_at = Carbon::now();
+
+        // Get max ID
+        $maxId = (int)Post::withTrashed()
+            ->where('source_id', $this->source->id ?? null)
+            ->max('original_id');
+        if ($maxId > $this->source->original_max_id) {
+            $this->source->original_max_id = $maxId;
+        } else {
+            $maxId = (int)$this->source->original_max_id;
+        }
+
         $this->source->save();
 
+        // Delete soft deleted records
+        Post::onlyTrashed()->where('source_id', $this->source->id ?? null)->forceDelete();
+
+        // Get twitter timeline
         $data = Twitter::getUserTimeline([
             'screen_name' => array_get($this->source, 'account_name'),
             'format' => 'array',
@@ -49,13 +69,6 @@ class ParseTwitter implements ShouldQueue
             'include_rts' => false,
         ]);
 
-        $maxId = 0;
-        $maxItem = Post::where('source_id', array_get($this->source, 'id'))
-            ->orderBy('original_date', 'DESC')
-            ->first();
-        if ($maxItem) {
-            $maxId = (int)$maxItem->original_id;
-        }
 
         foreach ($data as $item) {
             $id = (int)array_get($item, 'id');

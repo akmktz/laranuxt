@@ -3,7 +3,7 @@
     <div v-for="(item, index) in list" :key="item.id" class="card margin-bottom">
       <div @click="openItem(item, index)" class="card-header">
         <span v-bind:class="{ 'font-weight-bold': !item.viewed }">
-         <span>{{ item.title }}</span> <span class="float-right">  {{item.created_at}}</span>
+         <span>{{ item.title }}</span> <span class="float-right">  {{item.original_date}}</span>
         </span>
       </div>
       <transition name="slide-fade">

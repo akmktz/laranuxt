@@ -56,7 +56,8 @@ class PostsController extends Controller
     {
         return Post::with('source')
             ->where('user_id', Auth::id())
-            ->orderBy('id', 'DESC')
+            ->orderBy('original_date', 'DESC')
+            ->orderBy('original_id')
             ->get();
     }
 }
