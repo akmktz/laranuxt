@@ -48,3 +48,7 @@ Route::group(['middleware' => 'guest:api'], function () {
     Route::post('oauth/{provider}', 'Auth\OAuthController@redirectToProvider');
     Route::get('oauth/{provider}/callback', 'Auth\OAuthController@handleProviderCallback')->name('oauth.callback');
 });
+
+Route::get('/login', function () {
+    abort(401, 'Unauthorized');
+})->name('login');
