@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::group(['middleware' => 'auth:api'], function () {
+Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('posts')->group(function () {
         Route::get('', 'Posts\PostsController@index');
         Route::post('{item}/viewed', 'Posts\PostsController@viewed');
@@ -36,7 +36,7 @@ use Illuminate\Http\Request;
 
     Route::patch('settings/profile', 'Settings\ProfileController@update');
     Route::patch('settings/password', 'Settings\PasswordController@update');
-//});
+});
 
 Route::group(['middleware' => 'guest:api'], function () {
     Route::post('login', 'Auth\LoginController@login');
