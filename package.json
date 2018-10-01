@@ -17,6 +17,7 @@
     "@nuxtjs/toast": "^3.0.1",
     "axios": "^0.17.1",
     "bootstrap": "^4.0.0",
+    "dgram": "^1.0.1",
     "dotenv": "^4.0.0",
     "jquery": "^3.2.1",
     "js-cookie": "^2.2.0",
@@ -26,7 +27,8 @@
     "popper.js": "^1.12.9",
     "sweetalert2": "^7.26.12",
     "vform": "^0.8.1",
-    "vue-i18n": "^7.3.4"
+    "vue-i18n": "^7.3.4",
+    "ws": "^6.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
