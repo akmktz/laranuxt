@@ -32,7 +32,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import axios from 'axios';
 
   export default {
     middleware: 'auth',
@@ -45,7 +45,7 @@
       return {
         list: [],
         openedItemId: null
-      }
+      };
     },
 
     asyncData () {
@@ -56,11 +56,32 @@
             list = response.data.list;
           }
 
-          return { list: list }
-        })
+          return { list: list };
+        });
+    },
+
+    mounted () {
+      if (process.env.wsEnabled && process.env.wsUrl) {
+        const ws = new WebSocket(process.env.wsUrl);
+        ws.onmessage = ({data}) => {
+          if (data === 'UPDATED') {
+            this.getList();
+          }
+        };
+      }
     },
 
     methods: {
+      getList () {
+        return axios.get('/posts')
+          .then((response) => {
+            if (response.data.success) {
+              this.list = response.data.list;
+              this.$toast.show('Updated');
+            }
+          });
+      },
+
       openItem (item, index) {
         this.openedItemId = item.id;
 

@@ -1,19 +1,22 @@
 'use strict';
 
-const apiURL = 'http://laranuxt';
 const WebSocket = require('ws');
 const axios = require('axios');
 
 class WSServer {
-  constructor (port) {
+  constructor (port, getUserUrl) {
+    this.getUserUrl = getUserUrl;
+
     this.server = new WebSocket.Server({
       port: port
     });
 
-    this.server.on('connection', this.connectionHandler);
+    this.server.on('connection', (socket, request) => {
+      this.connectionHandler(socket, request);
+    });
   }
 
-  static getToken (cookies) {
+  getToken (cookies) {
     let token = '';
     cookies.split(';').forEach(function (cookie) {
       const parts = cookie.split('=');
@@ -32,7 +35,7 @@ class WSServer {
       return;
     }
 
-    const token = WSServer.getToken(request.headers.cookie);
+    const token = this.getToken(request.headers.cookie);
     if (!token) {
       socket.close();
       return;
@@ -40,12 +43,12 @@ class WSServer {
 
     socket.authUserId = null;
 
-    axios.get(apiURL + '/user', {
+    axios.get(this.getUserUrl, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
     })
-      .then(function (response) {
+      .then(response => {
         if (response.data.id) {
           socket.authUserId = response.data.id;
           return;
@@ -53,23 +56,33 @@ class WSServer {
 
         socket.close();
       })
-      .catch(function (error) {
+      .catch(() => {
         socket.close();
+        return;
       });
 
     socket.on('message', data => {
-      console.log(data);
-      // console.log(socket);
-      // Authorization: Bearer
+      if (socket.authUserId && this.reciever) {
+        this.reciever(data, socket);
+      }
+
     });
   }
 
   send (userId, message) {
+    if (!userId) {
+      return;
+    }
+
     this.server.clients.forEach((client, index) => {
       if (client.authUserId === userId) {
         client.send(message);
       }
     });
+  }
+
+  setReciever (callback) {
+    this.reciever = callback;
   }
 }
 

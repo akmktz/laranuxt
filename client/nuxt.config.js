@@ -19,6 +19,8 @@ module.exports = {
 
   env: {
     apiUrl: process.env.APP_URL || 'http://api.laravel-nuxt.test',
+    wsUrl: process.env.SIGNAL_SERVER_WS_URL || false,
+    wsEnabled: process.env.SIGNAL_SERVER_ENABLED || false,
     appName: process.env.APP_NAME || 'Laravel-Nuxt',
     appLocale: process.env.APP_LOCALE || 'en',
     githubAuth: !!process.env.GITHUB_CLIENT_ID

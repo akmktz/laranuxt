@@ -60,7 +60,7 @@ class ParseTwitter implements ShouldQueue
         Post::onlyTrashed()->where('source_id', $this->source->id ?? null)->forceDelete();
 
         // Get twitter timeline
-        $data = Twitter::getUserTimeline([
+        $list = Twitter::getUserTimeline([
             'screen_name' => array_get($this->source, 'account_name'),
             'format' => 'array',
             'count' => 10,
@@ -69,8 +69,9 @@ class ParseTwitter implements ShouldQueue
             'include_rts' => false,
         ]);
 
+        $updated = false;
 
-        foreach ($data as $item) {
+        foreach ($list as $item) {
             $id = (int)array_get($item, 'id');
             $url = array_get($item, 'entities.urls.0.url') ?: array_get($item, 'entities.media.0.url');
             $title = array_get($item, 'text');
@@ -85,6 +86,12 @@ class ParseTwitter implements ShouldQueue
             }
 
             dispatch(new ParseTwitterSaveTweet($this->source, $id, $url, $title, $date));
+
+            $updated = true;
+        }
+
+        if (env('SIGNAL_SERVER_ENABLED', false) && $updated) {
+            dispatch(new SignalUpdated($this->source->user_id));
         }
     }
 }
