@@ -3,7 +3,7 @@
     <md-card v-for="(item, index) in list" :key="item.id" md-with-hover class="margin-bottom">
       <md-ripple>
         <transition name="slide-fade">
-          <md-card-header v-bind:class="{ 'small-paddings': openedItemId === item.id }">
+          <md-card-header v-bind:class="{ 'small-paddings': openedItemId === item.id }" class="d-flex justify-content-between">
             <div @click="openItem(item, index)">
                 <div v-bind:class="{
                   'font-weight-bold': !item.viewed,
@@ -13,6 +13,9 @@
                      class="">{{ item.title }}</div>
                 <div class="md-subhead">{{item.original_date}}</div>
             </div>
+            <md-button v-if="openedItemId !== item.id" @click="deleteItem(item.id)" class="md-icon-button md-accent align-self-end">
+              <md-icon>delete</md-icon>
+            </md-button>
           </md-card-header>
         </transition>
         <transition name="slide-fade">
@@ -32,9 +35,9 @@
 </template>
 
 <script>
-  import axios from 'axios';
+    import axios from 'axios';
 
-  export default {
+    export default {
     middleware: 'auth',
 
     head () {
