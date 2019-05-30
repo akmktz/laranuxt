@@ -13,7 +13,7 @@
                      class="">{{ item.title }}</div>
                 <div class="md-subhead">{{item.original_date}}</div>
             </div>
-            <md-button v-if="openedItemId !== item.id" @click="deleteItem(item.id)" class="md-icon-button md-accent align-self-end">
+            <md-button v-if="openedItemId !== item.id" @click="deleteItem(item.id)" class="md-icon-button md-accent">
               <md-icon>delete</md-icon>
             </md-button>
           </md-card-header>
